@@ -11,8 +11,10 @@ public class UdpCastProvider
 
     public UdpCastProvider()
     {
-        udpClient = new UdpClient();
-        udpClient.EnableBroadcast = true;
+        udpClient = new UdpClient
+        {
+            EnableBroadcast = true
+        };
     }
 
     public void BroadcastMessage(object message)
@@ -22,7 +24,7 @@ public class UdpCastProvider
             string jsonMessage = JsonSerializer.Serialize(message);
             byte[] bytes = Encoding.UTF8.GetBytes(jsonMessage);
 
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Broadcast, port);
+            IPEndPoint endPoint = new(IPAddress.Broadcast, port);
             udpClient.Send(bytes, bytes.Length, endPoint);
 
             Console.WriteLine("Broadcast message sent: " + jsonMessage);
